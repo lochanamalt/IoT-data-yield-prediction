@@ -19,7 +19,7 @@ def make_windows(dataframe, features, output_variable, window_size):
 
 
 def make_progressive_windows(dataframe, features, output_variable, window_size,  pad_value):
-    X_list, y_list = [], []
+    X_list, y_list, lengths_list = [], [], []
     for plot_id, group in dataframe.groupby('plot_id'):
         group = group.sort_values('date')
         assert group['date'].is_monotonic_increasing, f"Plot {plot_id} not sorted!"
@@ -35,18 +35,18 @@ def make_progressive_windows(dataframe, features, output_variable, window_size, 
             if len(window) < window_size:
                 pad_len = window_size - len(window)
                 pad = np.full((pad_len, feature_matrix.shape[1]), pad_value, dtype=np.float32)
-                mask = np.concatenate([np.zeros(pad_len), np.ones(len(window))])
+                # mask = np.concatenate([np.zeros(pad_len), np.ones(len(window))])
                 window = np.vstack([pad, window])     # pad at the beginning
             else:
                 window = window[-window_size:, :]     # use last window_size days
-                mask = np.ones(window_size)
-
-            window_with_mask = np.concatenate([window, mask.reshape(-1, 1)], axis=1)
+                # mask = np.ones(window_size)
 
             X_list.append(window)
             y_list.append(yield_value)
+            lengths_list.append(len(window))
 
     X_array = np.array(X_list, dtype=np.float32)
     y_array = np.array(y_list, dtype=np.float32).reshape(-1, 1)
+    lengths_array = np.array(lengths_list, dtype=np.int64)
 
-    return X_array, y_array
+    return X_array, y_array, lengths_array
