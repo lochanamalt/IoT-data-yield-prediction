@@ -3,6 +3,7 @@
 @date: 10/17/2025
 @description: 
 """
+import torch
 import torch.nn as nn
 
 class LSTMModel(nn.Module):
@@ -31,9 +32,22 @@ class GRUModel(nn.Module):
         direction_factor = 2 if bidirectional else 1
         self.fc = nn.Linear(hidden_size * direction_factor, output_size)
 
-    def forward(self, x):
-        out, _ = self.gru(x)            # out: (batch, seq, hidden)
-        out = out[:, -1, :]             # take last time step
-        out = self.fc(out)              # predict yield
+    def forward(self, x, lengths):
+        packed = torch.nn.utils.rnn.pack_padded_sequence(
+            x, lengths.cpu(), batch_first=True, enforce_sorted=False
+        )
+        packed_out, _ = self.gru(packed)
+
+        out, _ = torch.nn.utils.rnn.pad_packed_sequence(packed_out, batch_first=True)
+
+        batch_idx = torch.arange(out.size(0))
+        last_idx = lengths - 1
+        out_last = out[batch_idx, last_idx, :]
+        out = self.fc(out_last)
         return out
 
+    # def forward(self, x):
+    #     out, _ = self.gru(x)            # out: (batch, seq, hidden)
+    #     out = out[:, -1, :]             # take last time step
+    #     out = self.fc(out)              # predict yield
+    #     return out
