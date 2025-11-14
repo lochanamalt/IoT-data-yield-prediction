@@ -38,12 +38,13 @@ def make_progressive_windows(dataframe, features, output_variable, window_size, 
                 # mask = np.concatenate([np.zeros(pad_len), np.ones(len(window))])
                 window = np.vstack([pad, window])     # pad at the beginning
             else:
+                pad_len = 0
                 window = window[-window_size:, :]     # use last window_size days
                 # mask = np.ones(window_size)
 
             X_list.append(window)
             y_list.append(yield_value)
-            lengths_list.append(len(window))
+            lengths_list.append(window_size - pad_len)
 
     X_array = np.array(X_list, dtype=np.float32)
     y_array = np.array(y_list, dtype=np.float32).reshape(-1, 1)
