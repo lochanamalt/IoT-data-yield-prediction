@@ -19,8 +19,9 @@ def make_windows(dataframe, features, output_variable, window_size):
 
 
 def make_progressive_windows(dataframe, features, output_variable, window_size,  pad_value):
-    X_list, y_list, lengths_list = [], [], []
+    X_list, y_list, lengths_list, no_days = [], [], [], []
     for plot_id, group in dataframe.groupby('plot_id'):
+        print("Processing plot {}".format(plot_id))
         group = group.sort_values('date')
         assert group['date'].is_monotonic_increasing, f"Plot {plot_id} not sorted!"
 
@@ -45,9 +46,11 @@ def make_progressive_windows(dataframe, features, output_variable, window_size, 
             X_list.append(window)
             y_list.append(yield_value)
             lengths_list.append(window_size - pad_len)
+            no_days.append(i)
 
     X_array = np.array(X_list, dtype=np.float32)
     y_array = np.array(y_list, dtype=np.float32).reshape(-1, 1)
     lengths_array = np.array(lengths_list, dtype=np.int64)
+    no_days_array = np.array(no_days, dtype=np.int64)
 
-    return X_array, y_array, lengths_array
+    return X_array, y_array, lengths_array, no_days_array
