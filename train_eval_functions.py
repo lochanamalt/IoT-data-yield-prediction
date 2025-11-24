@@ -1,12 +1,14 @@
+from typing import Tuple
+
 import torch
 from matplotlib import pyplot as plt
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from torch import nn
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-def train_data(model, model_train_loader, num_epochs, learning_rate, weight_decay,
-               hyper_param_criterion_method, file_save_name, early_stopping = False):
+def train_data(model, model_train_loader, num_epochs, learning_rate, weight_decay, hyper_param_criterion_method,
+               file_save_name, early_stopping = False):
     best_train_loss  = float('inf')
     patience = 20
     counter = 0
@@ -25,10 +27,12 @@ def train_data(model, model_train_loader, num_epochs, learning_rate, weight_deca
     for epoch in range(num_epochs):
         model.train()
         train_loss = 0
-        for X_batch, y_batch in model_train_loader:
-            X_batch, y_batch = X_batch.to(device), y_batch.to(device)
+        for X_batch, y_batch, lengths in model_train_loader:
+            X_batch = X_batch.to(device)
+            y_batch = y_batch.to(device)
+            lengths = lengths.to(device)
             optimizer.zero_grad()
-            y_pred = model(X_batch)
+            y_pred = model(X_batch, lengths)
             loss = criterion(y_pred, y_batch)
             loss.backward()
             # Gradient clipping (prevents exploding gradients)
@@ -55,15 +59,18 @@ def train_data(model, model_train_loader, num_epochs, learning_rate, weight_deca
     return total_loss
 
 
-def evaluate_model(model, val_loader, output_variable_scaler, doInverseTransformScale = False, plot_pred_vs_true = False):
+
+def evaluate_model(model, val_loader, output_variable_scaler, do_inverse_transform = False,
+                   plot_pred_vs_true = False) -> Tuple[float, float, float]:
 
     model.eval()  # set model to evaluation mode
     y_true, y_pred = [], []
 
     with torch.no_grad():
-        for X_batch, y_batch in val_loader:
+        for X_batch, y_batch, lengths in val_loader:
             X_batch = X_batch.to(device)
-            y_hat = model(X_batch)
+            lengths = lengths.to(device)
+            y_hat = model(X_batch, lengths)
 
             y_true.append(y_batch.cpu())
             y_pred.append(y_hat.cpu())
@@ -71,12 +78,13 @@ def evaluate_model(model, val_loader, output_variable_scaler, doInverseTransform
     y_true = torch.cat(y_true).numpy()
     y_pred = torch.cat(y_pred).numpy()
 
-    if doInverseTransformScale:
+    if do_inverse_transform:
         y_true = output_variable_scaler.inverse_transform(y_true)
         y_pred = output_variable_scaler.inverse_transform(y_pred)
 
     r2 = r2_score(y_true, y_pred)
     mse = mean_squared_error(y_true, y_pred)
+    mae = mean_absolute_error(y_true, y_pred)
 
     if plot_pred_vs_true:
         plt.figure(figsize=(8,6))
@@ -87,4 +95,4 @@ def evaluate_model(model, val_loader, output_variable_scaler, doInverseTransform
         plt.title("LSTM Predictions vs Actual")
         plt.show()
 
-    return r2, mse
+    return r2, mse, mae
