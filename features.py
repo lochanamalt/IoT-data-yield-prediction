@@ -20,11 +20,11 @@ _output_variable = 'GYLD_kg_m2'
 def get_vi_features(exclude_rgb_vis = False):
     return _vi_features[:-2] if exclude_rgb_vis else _vi_features
 
-def get_weather_features(is_empty= False):
-    return [] if is_empty else _weather_features
+def get_weather_features(exclude= False):
+    return [] if exclude else _weather_features
 
-def get_canopy_temp_features(is_empty = False):
-    return [] if is_empty else _canopy_temp_features
+def get_canopy_temp_features(exclude = False):
+    return [] if exclude else _canopy_temp_features
 
 def get_output_variable():
     return _output_variable
