@@ -3,10 +3,12 @@
 @date: 10/17/2025
 @description: 
 """
+from typing import Tuple
+
 import numpy as np
 
 
-def make_windows(dataframe, features, output_variable, window_size):
+def make_windows(dataframe, features, output_variable: str, window_size: int) -> Tuple[np.ndarray, np.ndarray]:
     X_list, y_list = [], []
     for plot_id, group in dataframe.groupby('plot_id'):
         feature_matrix = group[features].values
@@ -18,7 +20,8 @@ def make_windows(dataframe, features, output_variable, window_size):
     return np.array(X_list), np.array(y_list).reshape(-1, 1)
 
 
-def make_progressive_windows(dataframe, features, output_variable, window_size,  pad_value):
+def make_progressive_windows(dataframe, features, output_variable: str, window_size: int,  pad_value: int) ->\
+        Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     X_list, y_list, lengths_list, no_days = [], [], [], []
     for plot_id, group in dataframe.groupby('plot_id'):
         print("Processing plot {}".format(plot_id))
