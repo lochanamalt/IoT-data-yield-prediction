@@ -4,6 +4,8 @@ import torch
 from matplotlib import pyplot as plt
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 from torch import nn
+from torch.utils.data import DataLoader
+from model_definitions import GRUModel
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -96,3 +98,32 @@ def evaluate_model(model, val_loader, output_variable_scaler, do_inverse_transfo
         plt.show()
 
     return r2, mse, mae
+
+
+def validation_with_test(trial_id, train_dataset, test_dataset,features, scaler_y, batch_size, num_epochs, hidden_size, num_layers,
+                         dropout, bidirectional, learning_rate, weight_decay, hyper_param_criterion_method):
+
+    train_loader_tuning  = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    test_loader_tuning    = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+
+    model = GRUModel(input_size = len(features), hidden_size = hidden_size, num_layers = num_layers,
+                     output_size= 1, dropout=dropout, bidirectional = bidirectional).to(device)
+
+    train_data(
+        model = model,
+        model_train_loader= train_loader_tuning,
+        num_epochs = num_epochs,
+        learning_rate = learning_rate,
+        weight_decay = weight_decay,
+        hyper_param_criterion_method = hyper_param_criterion_method,
+        file_save_name=f"best_model_hyper_param{trial_id}.pth",
+        early_stopping=True
+    )
+
+    r2, mse, mae = evaluate_model(
+        model = model,
+        val_loader = test_loader_tuning,
+        output_variable_scaler=scaler_y)
+
+    print(f" R²: {r2:.4f}")
+    return r2
