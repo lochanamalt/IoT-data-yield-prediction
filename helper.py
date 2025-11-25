@@ -68,3 +68,16 @@ def filter_window_data_by_length(X, y, valid_lengths, no_days, needed_day):
     mask = no_days == needed_day
 
     return X[mask], y[mask], valid_lengths[mask]
+
+
+def filter_window_by_length_range(X, y, valid_lengths, no_days, days_min, days_max):
+    X = np.array(X)
+    y = np.array(y)
+    valid_lengths = np.array(valid_lengths)
+    no_days = np.array(no_days)
+
+    mask = np.ones(len(no_days), dtype=bool)
+    mask &= (no_days >= days_min)
+    mask &= (no_days <= days_max)
+
+    return X[mask], y[mask], valid_lengths[mask]
