@@ -3,7 +3,6 @@
 @date: 10/17/2025
 @description: 
 """
-import torch
 import torch.nn as nn
 
 class LSTMModel(nn.Module):
