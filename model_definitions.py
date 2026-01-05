@@ -6,16 +6,24 @@
 import torch.nn as nn
 
 class LSTMModel(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers, output_size,  dropout=0):
+    def __init__(self, input_size, hidden_size, num_layers, output_size, dropout=0.2):
         super(LSTMModel, self).__init__()
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True, dropout=dropout)
+        self.lstm = nn.LSTM(
+            input_size=input_size,   # number of features per time step
+            hidden_size=hidden_size, # number of hidden units
+            num_layers=num_layers,   # stacked GRU layers
+            batch_first=True,        # (batch, seq, feature)
+            dropout=dropout
+        )
+
         self.fc = nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
-        out, _ = self.lstm(x)
-        out = out[:, -1, :]  # last timestep
-        out = self.fc(out)
+    def forward(self, x, lengths):
+        out, _ = self.lstm(x)            # out: (batch, seq, hidden)
+        out = out[:, -1, :]             # take last time step
+        out = self.fc(out)              # predict yield
         return out
+
 
 # class GRUModel(nn.Module):
 #     def __init__(self, input_size, hidden_size, num_layers, output_size, dropout=0.2, bidirectional=False):
