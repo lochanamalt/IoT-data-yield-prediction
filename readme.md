@@ -12,6 +12,7 @@
 
 This document summarizes the performance of GRU models trained on various dataset versions (v2, v3) with 
 different feature sets. Each model was tuned using Optuna to find the best hyperparameters.
+Window size = 30
 
 * Masking means: For each window feed a mask to the model specifying the valid values with 1 and invalid/missing values with 0
 
@@ -31,3 +32,17 @@ different feature sets. Each model was tuned using Optuna to find the best hyper
 | 12    | 0.3246       | 0.5591 | 0.0509   | v3                  | Only VIs and filtered days 1-40 | ❌ Disabled | 0   | L1 Loss          | -                             | {'hidden_size': 32, 'num_layers': 1, 'dropout': 0.050690768780370606, 'lr': 0.007547140411083422, 'weight_decay': 1.2924377235786942e-07, 'batch_size': 8}  |
 
 
+Window size = 45
+
+
+| Model | Best Mean R² | Max R² | Test MSE | Dataset             | Features | Masking    | Pad | Criterion method | Model File                   | Hyperparameters                                                                                                                                          |
+|-------|--------------|--------|----------|---------------------|----------|------------|-----|------------------|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 13    | 0.5396       | 0.7614 | 0.0347   | v3_all_interpolated | Only VIs | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_5.pth | {'hidden_size': 8, 'num_layers': 2, 'dropout': 0.4116615584951404, 'lr': 0.00011452360758206809, 'weight_decay': 2.955054638657815e-08, 'batch_size': 8} |           
+
+### LSTM Model Hyperparameter Tuning Results
+
+
+| Model | Best Mean R² | Max R² | Test MSE | Dataset             | Features              | Masking    | Pad | Criterion method | Model File                   | Hyperparameters                                                                                                                                          |
+|-------|--------------|--------|----------|---------------------|-----------------------|------------|-----|------------------|------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 14    | 0.5396       | 0.7614 | 0.0347   | v3_all_interpolated | Only VIs              | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_5.pth | {'hidden_size': 8, 'num_layers': 2, 'dropout': 0.4116615584951404, 'lr': 0.00011452360758206809, 'weight_decay': 2.955054638657815e-08, 'batch_size': 8} |          
+| 15    |              |        |          | v3_all_interpolated | All VIs + Lepton Temp | ❌ Disabled | 0   | L1 Loss          |                              |                                                                                                                                                          |
