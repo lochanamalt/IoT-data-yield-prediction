@@ -30,34 +30,35 @@ Window size = 30
 | 10    | 0.5226       | 0.7393 | 0.0359   | 0.1500   | v3_all_interpolated | All VIs + Lepton Temp           | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_6.pth  | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.2870976201082699, 'lr': 0.00010064377208610434, 'weight_decay': 0.0002597190501496971, 'batch_size': 16}   |
 | 11    | 0.2667       | 0.7329 | 0.0552   |          | v3_all_interpolated | All VIs + Lepton Temp           | ✔️ Enabled | 0   | L1 Loss          | best_model_hyper_param85.pth  | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.23655266539255793, 'lr': 0.006284612922199666, 'weight_decay': 1.4279705990700703e-10, 'batch_size': 16}   |
 | 12    | 0.3246       | 0.5591 | 0.0509   |          | v3                  | Only VIs and filtered days 1-40 | ❌ Disabled | 0   | L1 Loss          | -                             | {'hidden_size': 32, 'num_layers': 1, 'dropout': 0.050690768780370606, 'lr': 0.007547140411083422, 'weight_decay': 1.2924377235786942e-07, 'batch_size': 8}  |
+| 13    | 0.6594       | 0.8772 | 0.0256   | 0.1284   | v3                  | Only VIs                        | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_11.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.22409349655400995, 'lr': 0.00015915047354193095, 'weight_decay': 7.29888035700565e-09, 'batch_size': 64}   |                                                                                                                                                             |
 
 
 Window size = 40
 
 | Model | Best Mean R² | Max R² | Test MSE | Test MAE | Dataset | Features | Masking    | Pad | Criterion method | Model File | Hyperparameters                                                                                                                                          |
 |-------|--------------|--------|----------|----------|---------|----------|------------|-----|------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 13    | 0.4961       | 0.6857 | 0.0379   | 0.1572   | v3      | Only VIs | ❌ Disabled | 0   | L1 Loss          |            | {'hidden_size': 64, 'num_layers': 2, 'dropout': 0.14212952905983112, 'lr': 0.006344969970535884, 'weight_decay': 3.119218313061341e-05, 'batch_size': 8} |           
+| 14    | 0.4961       | 0.6857 | 0.0379   | 0.1572   | v3      | Only VIs | ❌ Disabled | 0   | L1 Loss          |            | {'hidden_size': 64, 'num_layers': 2, 'dropout': 0.14212952905983112, 'lr': 0.006344969970535884, 'weight_decay': 3.119218313061341e-05, 'batch_size': 8} |           
 
 
 Window size = 20
 
 | Model | Best Mean R² | Max R² | Test MSE | Test MAE | Dataset             | Features              | Masking    | Pad | Criterion method | Model File                   | Hyperparameters                                                                                                                                             |
 |-------|--------------|--------|----------|----------|---------------------|-----------------------|------------|-----|------------------|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 14    | 0.4274       | 0.7529 | 0.0431   | 0.1660   | v3                  | Only VIs              | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_7.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.15407524085698027, 'lr': 0.00022516408745938045, 'weight_decay': 0.0001017303692011807, 'batch_size': 64}  |           
-| 15    | 0.3467       | 0.7493 | 0.0492   | 0.1762   | v3_all_interpolated | All VIs + Lepton Temp | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_8.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.29994133954772173, 'lr': 0.00022398230500393924, 'weight_decay': 0.00015160363384374365, 'batch_size': 64} |
+| 15    | 0.4274       | 0.7529 | 0.0431   | 0.1660   | v3                  | Only VIs              | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_7.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.15407524085698027, 'lr': 0.00022516408745938045, 'weight_decay': 0.0001017303692011807, 'batch_size': 64}  |           
+| 16    | 0.3467       | 0.7493 | 0.0492   | 0.1762   | v3_all_interpolated | All VIs + Lepton Temp | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_8.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.29994133954772173, 'lr': 0.00022398230500393924, 'weight_decay': 0.00015160363384374365, 'batch_size': 64} |
 
 
 Window size = 25
 
 | Model | Best Mean R² | Max R² | Test MSE | Test MAE | Dataset | Features | Masking    | Pad | Criterion method | Model File                   | Hyperparameters                                                                                                                                            |
 |-------|--------------|--------|----------|----------|---------|----------|------------|-----|------------------|------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 16    | 0.5003       | 0.7332 | 0.0376   | 0.1589   | v3      | Only VIs | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_9.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.10503772376300814, 'lr': 0.00011690368125953273, 'weight_decay': 0.0009878712546328788, 'batch_size': 32} |           
+| 17    | 0.5003       | 0.7332 | 0.0376   | 0.1589   | v3      | Only VIs | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_9.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.10503772376300814, 'lr': 0.00011690368125953273, 'weight_decay': 0.0009878712546328788, 'batch_size': 32} |           
 
 Window size = 35
 
 | Model | Best Mean R² | Max R² | Test MSE | Test MAE | Dataset | Features | Masking    | Pad | Criterion method | Model File                    | Hyperparameters                                                                                                                                             |
 |-------|--------------|--------|----------|----------|---------|----------|------------|-----|------------------|-------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 17    | 0.5235       | 0.6951 | 0.0359   | 0.1540   | v3      | Only VIs | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_10.pth | {'hidden_size': 8, 'num_layers': 2, 'dropout': 0.15733282331703996, 'lr': 0.00048561958669596813, 'weight_decay': 0.00018153262022945748, 'batch_size': 32} |           
+| 18    | 0.5235       | 0.6951 | 0.0359   | 0.1540   | v3      | Only VIs | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_10.pth | {'hidden_size': 8, 'num_layers': 2, 'dropout': 0.15733282331703996, 'lr': 0.00048561958669596813, 'weight_decay': 0.00018153262022945748, 'batch_size': 32} |           
 
 
 ### LSTM Model Hyperparameter Tuning Results
