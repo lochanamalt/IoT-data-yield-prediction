@@ -6,7 +6,10 @@
   * Input: VIs sequence over time. 
   * Output: Yield (a scalar).
 
-
+### Datasets
+v3: No of bins =5, Train/Test = 80/20%, No outliers removed, random state= 42
+v4: No of bins =5, Train/Test = 80/20%, Outliers removed, random state= 42
+v5: No of bins =7, Train/Test = 85/15%, Outliers removed, random state= 1
 
 ### GRU Model Hyperparameter Tuning Results
 
@@ -31,6 +34,7 @@ Window size = 30
 | 11    | 0.2667       | 0.7329 | 0.0552   |          | v3_all_interpolated | All VIs + Lepton Temp           | ✔️ Enabled | 0   | L1 Loss          | best_model_hyper_param85.pth  | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.23655266539255793, 'lr': 0.006284612922199666, 'weight_decay': 1.4279705990700703e-10, 'batch_size': 16}   |
 | 12    | 0.3246       | 0.5591 | 0.0509   |          | v3                  | Only VIs and filtered days 1-40 | ❌ Disabled | 0   | L1 Loss          | -                             | {'hidden_size': 32, 'num_layers': 1, 'dropout': 0.050690768780370606, 'lr': 0.007547140411083422, 'weight_decay': 1.2924377235786942e-07, 'batch_size': 8}  |
 | 13    | 0.6594       | 0.8772 | 0.0256   | 0.1284   | v3                  | Only VIs                        | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_11.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.22409349655400995, 'lr': 0.00015915047354193095, 'weight_decay': 7.29888035700565e-09, 'batch_size': 64}   |                                                                                                                                                             |
+| 14    | 0.5650       | 0.9164 | 0.0328   | 0.1409   | v3_all_interpolated | Only VIs, seed = 23             | ❌ Disabled | 0   | L1 Loss          | best_model_hyper_param_12.pth | {'hidden_size': 8, 'num_layers': 3, 'dropout': 0.36877045653176815, 'lr': 0.0015060644866586401, 'weight_decay': 1.4534255491581203e-07, 'batch_size': 32}  |
 
 
 Window size = 40
