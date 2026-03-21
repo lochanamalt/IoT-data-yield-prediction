@@ -2,6 +2,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 import datetime as dt
 
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
+
 START_DAY = 122 # May 1st in gregorian days
 
 
@@ -33,7 +36,7 @@ def plot_r2(r2_list, total_n_days):
 
 
     plt.ylabel("Test R²")
-    # plt.title("Test R² over days")
+    # plt.title("Test set drought plots R² over days")
     tick_indices = np.arange(0, len(x), 2)
     tick_values = x[tick_indices]
 
@@ -65,8 +68,8 @@ def plot_mse(mse_list, total_n_days):
     plt.scatter(min_x, min_y, color='red', s=80, zorder=5, label="Min Value")
     plt.text(min_x, min_y, f"  min={min_y_rounded} at day {min_x}", color='red', fontsize=10, va='bottom')
 
-    plt.scatter(second_min_x, second_min_val, color='red', s=80, zorder=5, label="Second Min Value")
-    plt.text(second_min_x, second_min_val, f"  min={second_min_y_rounded} at day {second_min_x}", color='red', fontsize=10, va='bottom')
+    # plt.scatter(second_min_x, second_min_val, color='red', s=80, zorder=5, label="Second Min Value")
+    # plt.text(second_min_x, second_min_val, f"  min={second_min_y_rounded} at day {second_min_x}", color='red', fontsize=10, va='bottom')
 
 
 
@@ -113,3 +116,54 @@ def plot_predicted_yield(total_n_days: int, y_pred_list, actual_yield: float, he
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+
+def plot_r2_with_another_axis(r2_list, axis_2_data, axis_2_name, total_n_days, output_filename):
+    x = np.arange(START_DAY, START_DAY + total_n_days)
+    max_idx = np.argmax(r2_list)
+    max_x = x[max_idx]
+    max_y = r2_list[max_idx]
+
+    fig, ax1 = plt.subplots(figsize=(12, 4))
+
+
+    ax1.set_xlabel("Day (Gregorian days)")
+    ax1.plot(x, r2_list, marker='o')
+    ax1.set_ylabel("Test R²")
+
+    ax1.scatter(max_x, max_y, color='red', s=80, zorder=5)
+
+    ax2 = ax1.twinx()  # second y-axis
+    ax2.plot(x, axis_2_data, color='green', label=axis_2_data)
+    ax2.set_ylabel(axis_2_name)
+
+
+
+
+    ax1.text(max_x, max_y, f" {max_y:.4f} at day {max_x}", color='red', fontsize=10, va='bottom')
+    # plt.scatter(second_max_x, second_max_val, color='red', s=80, zorder=5)
+    # plt.text(second_max_x, second_max_val, f"  {second_max_val:.4f} at day {second_max_x}", color='red',
+    #          fontsize=10, va='bottom')
+
+    ax1.grid(True, which='both', linestyle='--', linewidth=0.6, alpha=0.7)
+
+
+    # plt.title("Test R² over days")
+    tick_indices = np.arange(0, len(x), 2)
+    tick_values = x[tick_indices]
+
+    plt.axvspan(133,152,color='gray',alpha=0.3,label='Heading window')
+    plt.xticks(ticks=tick_values, ha='right')
+    plt.grid(True)
+    legend_elements = [
+        Line2D([0], [0], color='blue', lw=2, label='Test R²'),
+        Line2D([0], [0], color='green', lw=2, label=axis_2_name),
+        Patch(facecolor='gray', alpha=0.3, label='Heading window')
+    ]
+
+    ax1.legend(handles=legend_elements, loc='best')
+
+    # plt.legend()
+    plt.tight_layout()
+    plt.show()
+    fig.savefig(output_filename, dpi=300, bbox_inches='tight')
