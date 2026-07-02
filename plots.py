@@ -161,7 +161,7 @@ def plot_r2_with_another_axis(r2_list, axis_2_data, axis_2_name, total_n_days, o
         Patch(facecolor='gray', alpha=0.3, label='Heading window')
     ]
 
-    ax1.legend(handles=legend_elements, loc='best')
+    ax1.legend(handles=legend_elements, loc='upper left')
 
     # plt.legend()
     plt.tight_layout()
