@@ -24,7 +24,7 @@ def make_progressive_windows(dataframe, features, output_variable: str, window_s
         Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     X_list, y_list, lengths_list, no_days = [], [], [], []
     for plot_id, group in dataframe.groupby('plot_id'):
-        print("Processing plot {}".format(plot_id))
+        # print("Processing plot {}".format(plot_id))
         group = group.sort_values('date')
         assert group['date'].is_monotonic_increasing, f"Plot {plot_id} not sorted!"
 
