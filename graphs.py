@@ -5,7 +5,7 @@
 """
 import pandas as pd
 
-from plots import plot_r2_with_another_axis
+from plots import plot_r2_with_another_axis, plot_r2
 
 df = pd.read_csv("results/best_gru_model_14_seed_46_performance_with_gridmet.csv")
 
@@ -30,8 +30,10 @@ cgdd = df["cgdd"].to_list()
 
 total_days = 46
 
-plot_r2_with_another_axis(r2_list=test_r2,axis_2_data=air_temp,axis_2_name="Air Temperature (°C)",
-                          total_n_days=total_days, output_filename="results/model_14_seed_46_r2_with_air_temp_gridmet.png")
+# plot_r2_with_another_axis(r2_list=test_r2,axis_2_data=air_temp,axis_2_name="Air Temperature (°C)",
+#                           total_n_days=total_days, output_filename="results/model_14_seed_46_r2_with_air_temp_gridmet.png")
+plot_r2(r2_list=test_r2, total_n_days=total_days)
+
 # plot_r2_with_another_axis(r2_list=test_r2,axis_2_data=precipitation,axis_2_name="Precipitation (mm)",
 #                           total_n_days=total_days, output_filename="results/r2_with_precipitation_gridmet.png")
 # plot_r2_with_another_axis(r2_list=test_r2,axis_2_data=gdd,axis_2_name="Growing Degree Days",
